@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace FishTank.Tests
 {
     [TestFixture]
-    public class TestClass
+    public class FishTests
     {
         [Test]
         public void TestMethod()
