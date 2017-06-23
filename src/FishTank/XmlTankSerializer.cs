@@ -21,5 +21,34 @@ namespace FishTank
 
             return xElement.ToString(disableFormatting ? SaveOptions.DisableFormatting : SaveOptions.None);
         }
+
+        public Tank Deserialize(string xml)
+        {
+            var tank = new Tank();
+            if(string.IsNullOrWhiteSpace(xml))
+            {
+                return tank;
+            }
+
+            var xElement = XElement.Parse(xml);
+            var fishElements = xElement.Element("FishTank")?.Elements("Fish");
+            foreach (var fishElement in fishElements)
+            {
+                var fishTypeName = fishElement.Attribute("type").Value;
+                var name = (string)fishElement.Element("name");
+                var fishType = Type.GetType(fishTypeName, false);
+                if (fishType != null)
+                {
+                    var fishObject = Activator.CreateInstance(fishType) as IFish;
+                    if(fishObject != null)
+                    {
+                        fishObject.Name = name;
+                        tank.Add(fishObject);
+                    }
+                }
+            }
+
+            return tank;
+        }
     }
 }
