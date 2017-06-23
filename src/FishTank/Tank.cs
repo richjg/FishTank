@@ -10,7 +10,7 @@ namespace FishTank
     {
         private List<IFish> fish = new List<IFish>();
 
-        public Tank Add(IFish fish)
+        public Tank Add<T>(T fish) where T : IFish, new() //this forces the implementing class to have a default ctor, which in turn makes deseralization easier
         {
             this.fish.Add(fish);
             return this;
